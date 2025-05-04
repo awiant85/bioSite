@@ -1,3 +1,14 @@
+/* === CSS Variables for Theming === */
+:root {
+  --primary-color: #673AB7;
+  --accent-color: #FF6F61;
+  --light-bg: #FDFCFB;
+  --soft-purple: #f3eaff;
+  --shadow-purple: rgba(103, 58, 183, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --border-radius: 12px;
+}
+
 /* === Reset & Base === */
 * {
   margin: 0;
@@ -7,20 +18,34 @@
 
 body {
   font-family: 'Lato', sans-serif;
-  background-color: #FDFCFB;
+  background: var(--light-bg);
   color: #333;
   line-height: 1.6;
   padding: 20px;
+  overflow-x: hidden;
 }
 
 /* === Header === */
 header {
-  background: linear-gradient(135deg, #f3eaff, #e0c7ff);
-  padding: 20px 20px 30px;
-  box-shadow: 0 4px 20px rgba(103, 58, 183, 0.2);
-  border-bottom: 4px solid #673AB7;
+  background: linear-gradient(135deg, var(--soft-purple), #e0c7ff);
+  padding: 30px 20px 40px;
+  box-shadow: 0 4px 20px var(--shadow-purple);
+  border-bottom: 4px solid var(--primary-color);
+  position: relative;
+  overflow: hidden;
 }
 
+header::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--accent-color) 20%, transparent 70%);
+  opacity: 0.2;
+  transform: rotate(45deg);
+}
 
 .header-content {
   max-width: 1100px;
@@ -30,18 +55,19 @@ header {
 
 header h1 {
   font-family: 'Playfair Display', serif;
-  color: #673AB7;
-  font-size: 3rem;
+  color: var(--primary-color);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
   margin-bottom: 10px;
   text-shadow: 1px 1px 2px rgba(103, 58, 183, 0.1);
 }
 
 header h2 {
   font-family: 'Lato', sans-serif;
-  color: #FF6F61;
+  color: var(--accent-color);
   font-size: 1.4rem;
   margin-bottom: 25px;
   opacity: 0.95;
+  letter-spacing: 0.5px;
 }
 
 header nav {
@@ -49,18 +75,19 @@ header nav {
   justify-content: center;
   gap: 25px;
   flex-wrap: wrap;
+  animation: fadeIn 0.6s ease forwards;
 }
 
 header nav a {
   text-decoration: none;
-  color: #673AB7;
+  color: var(--primary-color);
   padding: 10px 20px;
-  border: 2px solid #673AB7;
-  border-radius: 12px;
+  border: 2px solid var(--primary-color);
+  border-radius: var(--border-radius);
   font-weight: bold;
-  transition: all 0.3s ease;
-  position: relative;
   background-color: white;
+  position: relative;
+  transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(103, 58, 183, 0.08);
 }
 
@@ -72,18 +99,32 @@ header nav a::after {
   bottom: -6px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #FF6F61;
+  background-color: var(--accent-color);
   transition: width 0.3s ease;
 }
 
 header nav a:hover {
-  background-color: #673AB7;
+  background-color: var(--primary-color);
   color: white;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 header nav a:hover::after {
   width: 80%;
+}
+
+/* === Active Page Highlight === */
+header nav a.active {
+  background-color: var(--primary-color);
+  color: white;
+  pointer-events: none;
+  cursor: default;
+  box-shadow: 0 0 10px rgba(103, 58, 183, 0.3);
+}
+
+header nav a.active::after {
+  width: 100%;
+  background-color: var(--accent-color);
 }
 
 /* === Container === */
@@ -91,12 +132,13 @@ header nav a:hover::after {
   max-width: 1100px;
   margin: auto;
   padding: 20px;
+  backdrop-filter: blur(6px);
 }
 
 /* === Headings === */
 h1, h2, h3 {
   font-family: 'Playfair Display', serif;
-  color: #673AB7;
+  color: var(--primary-color);
   text-align: center;
   margin-bottom: 20px;
 }
@@ -107,7 +149,7 @@ h1 {
 
 h2 {
   font-size: 2rem;
-  color: #FF6F61;
+  color: var(--accent-color);
 }
 
 h3 {
@@ -118,49 +160,50 @@ h3 {
 /* === Lists === */
 ul {
   margin-top: 20px;
-  padding-left: 20px;
+  padding-left: 25px;
+  list-style-type: circle;
 }
 
 ul li {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   font-size: 1rem;
+  line-height: 1.7;
 }
 
-/* === Image Blocks with Captions on Right === */
+/* === Image Blocks === */
 .image-block {
   display: flex;
   align-items: flex-start;
   gap: 25px;
   margin-bottom: 40px;
-  background-color: #fff;
+  background-color: var(--glass-bg);
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   animation: fadeIn 0.6s ease both;
   flex-wrap: wrap;
+  backdrop-filter: blur(8px);
 }
 
 .image-block img {
   width: 300px;
   height: auto;
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: transform 0.3s ease;
 }
 
 .image-block img:hover {
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
 .image-block p {
   max-width: 600px;
   font-size: 1.1rem;
-  margin: 0;
   color: #333;
-  line-height: 1.6;
 }
 
-/* === Section Grids === */
+/* === Hobby Section === */
 .hobby-grid {
   display: flex;
   flex-wrap: wrap;
@@ -171,18 +214,32 @@ ul li {
 
 .hobby-box {
   flex: 1 1 30%;
-  background-color: #fff;
-  border: 2px solid #f3eaff;
+  background: white;
+  border: 2px solid var(--soft-purple);
   border-radius: 16px;
   padding: 20px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.hobby-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -20px;
+  width: 80px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--accent-color), transparent);
+  opacity: 0.1;
+  transform: rotate(25deg);
 }
 
 .hobby-box:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 /* === Buttons === */
@@ -190,27 +247,27 @@ ul li {
   display: inline-block;
   background: #F4C542;
   color: white;
-  padding: 10px 20px;
-  border-radius: 12px;
+  padding: 12px 24px;
+  border-radius: var(--border-radius);
   text-decoration: none;
   font-weight: bold;
   transition: 0.3s;
+  letter-spacing: 0.5px;
 }
 
 .button:hover {
   background: #E5B900;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 /* === Footer === */
 footer {
-  width: 100%;
-  background-color: #673AB7;
+  background-color: var(--primary-color);
   color: white;
   text-align: center;
-  padding: 20px 0;
-  font-size: 0.9rem;
-  border-top: 4px solid #f3eaff;
+  padding: 25px 0;
+  font-size: 0.95rem;
+  border-top: 4px solid var(--soft-purple);
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
   margin-top: 60px;
 }
@@ -218,6 +275,7 @@ footer {
 footer p {
   margin: 0;
   font-weight: 400;
+  letter-spacing: 0.3px;
 }
 
 .footer-content {
@@ -244,13 +302,13 @@ footer p {
 
   header nav {
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
 
   .image-block {
     flex-direction: column;
-    text-align: center;
     align-items: center;
+    text-align: center;
   }
 
   .image-block img {
